@@ -1,0 +1,37 @@
+services:
+  api:
+    image: postgrest/postgrest:v10.0.0
+    restart: unless-stopped
+    ports: ["127.0.0.1:3000:3000"]
+    environment:
+      PGRST_DB_URI: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: postgres
+    volumes:
+      - postgres_socket:/var/run/postgresql
+    depends_on:
+      db:
+        condition: service_healthy
+  dbmate:
+    image: amacneil/dbmate:1.15
+    command: --wait up
+    user: ${UID:-1000}:${GID:-1000}
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
+    volumes:
+      - .:/db
+      - postgres_socket:/var/run/postgresql
+    depends_on: [db]
+  db:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: pg_isready -U postgres
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_socket:/var/run/postgresql
+      - postgres_data_v14:/var/lib/postgresql/data
+volumes:
+  postgres_socket:
+  postgres_data_v14:
