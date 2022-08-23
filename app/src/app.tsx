@@ -1,3 +1,4 @@
+import "./app.css";
 import { createSignal } from "solid-js";
 import Index from "./pages/index";
 import Page from "./pages/page";
@@ -30,7 +31,10 @@ export default () => {
   return () => (
     <>
       <header>
-        <h1>Quot</h1>
+        <h1>
+          <a href="/">Quot</a>
+        </h1>
+        <a href="/new">📄</a>
       </header>
       {routes[pathname()] ?? <Page id={Number(pathname().slice(1))} />}
     </>
