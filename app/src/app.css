@@ -7,3 +7,7 @@ header {
 a[href^="/"] {
   text-decoration: none;
 }
+
+main * {
+  line-height: 2;
+}
