@@ -22,7 +22,7 @@ export default (props: { id: number }) => {
 
   return (
     <main>
-      <Editor />
+      <Editor id={props.id} />
       <pre>{() => JSON.stringify(page(), null, " ")}</pre>
     </main>
   );
