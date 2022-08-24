@@ -1,3 +1,11 @@
+:root {
+  font-size: 12px;
+}
+
+body {
+  max-inline-size: 80rem;
+}
+
 header {
   display: flex;
   align-items: center;

@@ -1,6 +1,7 @@
 import { createResource } from "solid-js";
 import type Pages from "../protocol/pages";
 import Editor from "../components/editor";
+import Card from "../components/card";
 import beforeunload from "../helpers/beforeunload";
 import throttle from "../helpers/throttle";
 
@@ -51,7 +52,7 @@ export default (props: { id: number }) => {
   return (
     <main>
       <Editor id={props.id} onUpdatePage={onUpdatePage} />
-      <pre>{() => JSON.stringify(page(), null, " ")}</pre>
+      {() => <Card id={props.id} title="" text="" {...page()} />}
     </main>
   );
 };

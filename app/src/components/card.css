@@ -1,0 +1,22 @@
+.card {
+  margin: unset;
+  padding: 1rem;
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--nc-bg-2);
+  color: var(--nc-tx-2);
+  border-width: 0.75rem;
+  border-top-style: solid;
+  border-top-color: var(--nc-bg-3);
+  box-shadow: 0 1px var(--nc-bg-3);
+}
+
+.card h2 {
+  padding: unset;
+  font-size: unset;
+}
+
+.card p {
+  white-space: pre-wrap;
+}
