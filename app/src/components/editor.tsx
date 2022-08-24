@@ -1,29 +1,10 @@
+import type Pages from "../protocol/pages";
 import "./editor.css";
-import beforeunload from "../helpers/beforeunload";
-import throttle from "../helpers/throttle";
 
-const intervalMs = 333;
-
-const { block, unblock } = beforeunload();
-
-const updatePage = throttle(async function (params: {
+export default (props: {
   id: number;
-  title: string;
-  text: string;
-}) {
-  const res = await fetch(
-    new URL(`/pages?id=eq.${params.id}`, import.meta.env.QUOT_API_URL),
-    {
-      method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(params),
-    }
-  );
-  if (res.ok) unblock();
-},
-intervalMs);
-
-export default (props: { id: number }) => {
+  onUpdatePage: (content: Pages.RequestContentPage) => void;
+}) => {
   return (
     <textarea
       id={String(props.id)}
@@ -32,8 +13,7 @@ export default (props: { id: number }) => {
       onInput={(e) => {
         const text = e.currentTarget.value;
         const lines = text.split("\n");
-        block();
-        updatePage({ id: props.id, title: lines[0] ?? "", text });
+        props.onUpdatePage({ id: props.id, title: lines[0] ?? "", text });
         e.currentTarget.setAttribute("rows", String(Math.max(2, lines.length)));
       }}
     ></textarea>
