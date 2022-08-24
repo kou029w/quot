@@ -23,7 +23,7 @@ async function updatePage(
   return res.ok;
 }
 
-async function fetchPage(id: number): Promise<Pages.RequestContentPage> {
+async function fetchPage(id: number): Promise<Pages.ResponsePage> {
   const res = await fetch(
     new URL(`/pages?id=eq.${id}`, import.meta.env.QUOT_API_URL)
   );
