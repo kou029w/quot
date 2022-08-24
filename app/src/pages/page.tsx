@@ -37,6 +37,7 @@ export default (props: { id: number }) => {
       if (await updatePage(id, content)) {
         unblock();
         refetch();
+        window.history.replaceState({}, "", `/${id}`);
       }
     },
     intervalMs

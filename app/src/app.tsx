@@ -2,6 +2,7 @@ import "./app.css";
 import { createSignal } from "solid-js";
 import Index from "./pages/index";
 import Page from "./pages/page";
+import random from "./helpers/random";
 
 const routes = {
   "/": Index,
@@ -36,7 +37,9 @@ export default () => {
         </h1>
         <a href="/new">📄</a>
       </header>
-      {routes[pathname()] ?? <Page id={Number(pathname().slice(1))} />}
+      {routes[pathname()] ?? (
+        <Page id={Number(pathname().slice(1)) || random()} />
+      )}
     </>
   );
 };
