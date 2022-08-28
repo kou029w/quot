@@ -4,9 +4,7 @@ import Cards from "../components/cards";
 import Card from "../components/card";
 
 async function fetchPages(): Promise<Pages.Response> {
-  const res = await fetch(
-    new URL("/pages?order=updated.desc", import.meta.env.QUOT_API_URL)
-  );
+  const res = await fetch("/api/pages?order=updated.desc");
   const data = (await res.json()) as Pages.Response;
   return data;
 }

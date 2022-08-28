@@ -19,24 +19,22 @@ async function main() {
       bundle: true,
       minify: true,
       entryPoints: [scriptPath],
-      define: {
-        "import.meta.env.QUOT_API_URL": JSON.stringify(apiUrl),
-      },
     }
   );
 
   const handler: http.RequestListener = (req, res) => {
+    const api = req.url?.startsWith("/api/") && new URL(apiUrl);
     const options = {
-      hostname: result.host,
-      port: result.port,
-      path: req.url,
+      hostname: /**/ api ? api.hostname /*                 */ : result.host,
+      port: /*    */ api ? api.port /*                     */ : result.port,
+      path: /*    */ api ? req.url?.slice("/api".length) /**/ : req.url,
       method: req.method,
       headers: req.headers,
     };
 
     const proxyReq = http.request(options, (proxyRes) => {
-      if (proxyRes.statusCode === 200) {
-        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      if (api || proxyRes.statusCode === 200) {
+        res.writeHead(proxyRes.statusCode ?? 500, proxyRes.headers);
         proxyRes.pipe(res);
       } else {
         res.writeHead(200, { "Content-Type": "text/html" });

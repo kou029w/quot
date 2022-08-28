@@ -8,10 +8,12 @@ services:
     ports: ["8080:8080"]
     volumes:
       - ./app:/app
+    environment:
+      QUOT_API_URL: http://api:3000/
+    depends_on: [api]
   api:
     image: postgrest/postgrest:v10.0.0
     restart: unless-stopped
-    ports: ["127.0.0.1:3000:3000"]
     environment:
       PGRST_DB_URI: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
       PGRST_DB_SCHEMA: public
