@@ -1,3 +1,10 @@
 .editor {
-  inline-size: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: var(--nc-bg-2);
+  color: var(--nc-tx-2);
+  border-width: 0.75rem;
+  border-top-style: solid;
+  border-top-color: var(--nc-bg-3);
+  box-shadow: 0 1px var(--nc-bg-3);
 }

@@ -1,7 +1,6 @@
 import { createResource } from "solid-js";
 import type Pages from "../protocol/pages";
 import Editor from "../components/editor";
-import Card from "../components/card";
 import beforeunload from "../helpers/beforeunload";
 import throttle from "../helpers/throttle";
 
@@ -23,6 +22,14 @@ async function updatePage(
   return res.ok;
 }
 
+async function deletePage(id: number): Promise<boolean> {
+  const res = await fetch(
+    new URL(`/pages?id=eq.${id}`, import.meta.env.QUOT_API_URL),
+    { method: "DELETE" }
+  );
+  return res.ok;
+}
+
 async function fetchPage(id: number): Promise<Pages.ResponsePage> {
   const res = await fetch(
     new URL(`/pages?id=eq.${id}`, import.meta.env.QUOT_API_URL)
@@ -32,13 +39,12 @@ async function fetchPage(id: number): Promise<Pages.ResponsePage> {
 }
 
 export default (props: { id: number }) => {
-  const [page, { refetch }] = createResource(props.id, fetchPage);
+  const [page] = createResource(props.id, fetchPage);
   const throttledUpdate = throttle(
     async (id: number, content: Pages.RequestContentPage) => {
-      if (await updatePage(id, content)) {
+      if (await (content.text ? updatePage(id, content) : deletePage(id))) {
         unblock();
-        refetch();
-        window.history.replaceState({}, "", `/${id}`);
+        window.history.replaceState({}, "", `/${content.text ? id : "new"}`);
       }
     },
     intervalMs
@@ -51,8 +57,17 @@ export default (props: { id: number }) => {
 
   return (
     <main>
-      <Editor id={props.id} onUpdatePage={onUpdatePage} />
-      {() => <Card id={props.id} title="" text="" {...page()} />}
+      {() =>
+        !page.loading && (
+          <Editor
+            id={props.id}
+            title=""
+            text=""
+            {...page()}
+            onUpdatePage={onUpdatePage}
+          />
+        )
+      }
     </main>
   );
 };
