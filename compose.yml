@@ -1,29 +1,18 @@
 services:
-  app:
-    image: kou029w/quot-app
-    build: app
+  quot:
+    image: kou029w/quot
+    build: "."
     restart: unless-stopped
-    init: true
-    user: ${UID:-1000}:${GID:-1000}
     ports: ["8080:8080"]
-    volumes:
-      - ./app:/app
-    environment:
-      QUOT_API_URL: http://api:3000/
-    depends_on: [api]
-  api:
-    image: postgrest/postgrest:v10.0.0
-    restart: unless-stopped
     environment:
       PGRST_DB_URI: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
       PGRST_DB_SCHEMA: public
       PGRST_DB_ANON_ROLE: postgres
     volumes:
       - postgres_socket:/var/run/postgresql
-    depends_on:
-      db:
-        condition: service_healthy
+    depends_on: [db]
   dbmate:
+    profiles: [dev]
     image: amacneil/dbmate:1.15
     command: --wait up
     user: ${UID:-1000}:${GID:-1000}
