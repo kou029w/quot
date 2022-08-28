@@ -11,21 +11,29 @@ async function updatePage(
   id: number,
   content: Pages.RequestContentPage
 ): Promise<boolean> {
-  const res = await fetch(`/api/pages?id=eq.${id}`, {
-    method: "PUT",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(content),
-  });
+  const res = await fetch(
+    `${import.meta.env.QUOT_API_URL}/api/pages?id=eq.${id}`,
+    {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(content),
+    }
+  );
   return res.ok;
 }
 
 async function deletePage(id: number): Promise<boolean> {
-  const res = await fetch(`/api/pages?id=eq.${id}`, { method: "DELETE" });
+  const res = await fetch(
+    `${import.meta.env.QUOT_API_URL}/api/pages?id=eq.${id}`,
+    { method: "DELETE" }
+  );
   return res.ok;
 }
 
 async function fetchPage(id: number): Promise<Pages.ResponsePage> {
-  const res = await fetch(`/api/pages?id=eq.${id}`);
+  const res = await fetch(
+    `${import.meta.env.QUOT_API_URL}/api/pages?id=eq.${id}`
+  );
   const data = (await res.json()) as Pages.Response;
   return data[0]!;
 }

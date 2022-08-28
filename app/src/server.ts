@@ -5,7 +5,7 @@ import esbuild from "esbuild";
 
 async function main() {
   const port = Number(process.env.PORT ?? "8080");
-  const apiUrl = process.env.QUOT_API_URL || "http://127.0.0.1:3000/";
+  const apiUrl = process.env.QUOT_API_URL || "http://127.0.0.1:3000";
   const publicDir = __dirname;
   const htmlPath = `${publicDir}/index.html`;
   const scriptPath = `${publicDir}/index.ts`;
@@ -19,6 +19,11 @@ async function main() {
       bundle: true,
       minify: true,
       entryPoints: [scriptPath],
+      define: {
+        "import.meta.env.QUOT_API_URL": JSON.stringify(
+          process.env.QUOT_API_URL ?? ""
+        ),
+      },
     }
   );
 
