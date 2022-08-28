@@ -5,9 +5,7 @@ services:
     restart: unless-stopped
     ports: ["8080:8080"]
     environment:
-      PGRST_DB_URI: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
-      PGRST_DB_SCHEMA: public
-      PGRST_DB_ANON_ROLE: anon
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
     volumes:
       - postgres_socket:/var/run/postgresql
     depends_on: [db]
