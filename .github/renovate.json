@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "config:base",
+    "config:semverAllMonthly",
+    ":automergeAll",
+    ":automergeBranch",
+    ":skipStatusChecks",
+    "docker:enableMajor",
+    "docker:pinDigests"
+  ]
+}
