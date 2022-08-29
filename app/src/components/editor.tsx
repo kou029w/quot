@@ -1,4 +1,5 @@
 import {
+  $createLineBreakNode,
   $createParagraphNode,
   $createTextNode,
   $getRoot,
@@ -25,8 +26,11 @@ export default (props: {
     const root = $getRoot();
     if (root.getFirstChild()) return;
     const paragraphNode = $createParagraphNode();
-    const textNode = $createTextNode(props.text);
-    paragraphNode.append(textNode);
+    const text = props.text
+      .split("\n")
+      .flatMap((line) => [$createTextNode(line), $createLineBreakNode()])
+      .slice(0, -1);
+    paragraphNode.append(...text);
     root.append(paragraphNode);
   };
   onCleanup(registerPlainText(editor, initialEditorState));
