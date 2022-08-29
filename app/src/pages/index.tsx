@@ -20,7 +20,7 @@ export default () => {
         <Cards>
           <For each={pages()}>
             {(page) => (
-              <a href={`/${page.id}`}>
+              <a href={`/${page.id.toString(16)}`}>
                 <Card {...page} />
               </a>
             )}

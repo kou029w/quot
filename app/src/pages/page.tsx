@@ -44,7 +44,11 @@ export default (props: { id: number }) => {
     async (id: number, content: Pages.RequestContentPage) => {
       if (await (content.text ? updatePage(id, content) : deletePage(id))) {
         unblock();
-        window.history.replaceState({}, "", `/${content.text ? id : "new"}`);
+        window.history.replaceState(
+          {},
+          "",
+          `/${content.text ? id.toString(16) : "new"}`
+        );
       }
     },
     intervalMs

@@ -38,7 +38,9 @@ export default () => {
         <a href="/new">📄</a>
       </header>
       {routes[pathname()] ?? (
-        <Page id={Number(pathname().slice(1)) || random()} />
+        <Page
+          id={parseInt(pathname().slice(1), 16) || random()}
+        />
       )}
     </>
   );
