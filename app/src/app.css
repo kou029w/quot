@@ -19,9 +19,17 @@ header {
   justify-content: space-evenly;
 }
 
+header h1 {
+  margin: 0;
+}
+
 header h1 > a,
 header h1 > a:hover {
   color: var(--nc-ac-1);
+}
+
+header nav > * {
+  font-size: 1.55rem;
 }
 
 a[href^="/"] {

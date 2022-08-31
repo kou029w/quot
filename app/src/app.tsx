@@ -35,12 +35,12 @@ export default () => {
         <h1>
           <a href="/">Quot</a>
         </h1>
-        <a href="/new">📄</a>
+        <nav>
+          <a href="/new">📄</a>
+        </nav>
       </header>
       {routes[pathname()] ?? (
-        <Page
-          id={parseInt(pathname().slice(1), 16) || random()}
-        />
+        <Page id={parseInt(pathname().slice(1), 16) || random()} />
       )}
     </>
   );
