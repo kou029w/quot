@@ -3,6 +3,7 @@
 }
 
 body {
+  padding-inline: 1rem;
   max-inline-size: 80rem;
 }
 
