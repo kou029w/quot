@@ -1,5 +1,11 @@
 :root {
   font-size: 12px;
+  --nc-font-sans: sans-serif;
+  --nc-font-mono: monospace;
+  --nc-lk-1: #1875d1;
+  --nc-lk-2: #004a9f;
+  --nc-ac-1: #f57f17;
+  --nc-ac-tx: var(--nc-tx-1);
 }
 
 body {
@@ -11,6 +17,11 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+}
+
+header h1 > a,
+header h1 > a:hover {
+  color: var(--nc-ac-1);
 }
 
 a[href^="/"] {
