@@ -4,7 +4,6 @@ import Editor from "../components/editor";
 import beforeunload from "../helpers/beforeunload";
 import throttle from "../helpers/throttle";
 
-const intervalMs = 333;
 const { block, unblock } = beforeunload();
 
 async function updatePage(
@@ -50,8 +49,7 @@ export default (props: { id: number }) => {
           `/${content.text ? id.toString(16) : "new"}`
         );
       }
-    },
-    intervalMs
+    }
   );
 
   function onUpdatePage(content: Pages.RequestContentPage) {

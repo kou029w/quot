@@ -1,6 +1,6 @@
 function throttle<Fn extends (...args: any[]) => any>(
   fn: Fn,
-  ms: number
+  ms: number = 333
 ): (...args: Parameters<Fn>) => void {
   let throttledFn = () => undefined;
   let throttled: boolean = false;
