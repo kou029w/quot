@@ -7,7 +7,7 @@ import {
 } from "lexical";
 import { registerPlainText } from "@lexical/plain-text";
 import { onCleanup, onMount } from "solid-js";
-import type Pages from "../protocol/pages";
+import type Pages from "../../protocol/pages";
 import "./editor.css";
 
 const editor = createEditor();

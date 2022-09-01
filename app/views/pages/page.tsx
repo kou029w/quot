@@ -1,5 +1,5 @@
 import { createResource } from "solid-js";
-import type Pages from "../protocol/pages";
+import type Pages from "../../protocol/pages";
 import Editor from "../components/editor";
 import beforeunload from "../helpers/beforeunload";
 import throttle from "../helpers/throttle";

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "tsc --noEmit",
-    "start": "node -r esbuild-register src/server.ts"
+    "start": "node -r esbuild-register main.ts"
   },
   "engines": {
     "node": "^18.7.0"

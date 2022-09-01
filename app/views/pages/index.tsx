@@ -1,5 +1,5 @@
 import { createResource, For } from "solid-js";
-import type Pages from "../protocol/pages";
+import type Pages from "../../protocol/pages";
 import Cards from "../components/cards";
 import Card from "../components/card";
 

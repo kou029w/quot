@@ -6,14 +6,14 @@ import esbuild from "esbuild";
 async function main() {
   const port = Number(process.env.PORT ?? "8080");
   const apiUrl = process.env.QUOT_API_URL || "http://127.0.0.1:3000";
-  const publicDir = __dirname;
-  const htmlPath = `${publicDir}/index.html`;
-  const scriptPath = `${publicDir}/index.ts`;
+  const viewsDir = `${__dirname}/views`;
+  const htmlPath = `${viewsDir}/index.html`;
+  const scriptPath = `${viewsDir}/index.ts`;
 
   const result = await esbuild.serve(
     {
       host: "127.0.0.1",
-      servedir: publicDir,
+      servedir: viewsDir,
     },
     {
       bundle: true,
