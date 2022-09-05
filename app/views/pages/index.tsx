@@ -4,8 +4,10 @@ import Cards from "../components/cards";
 import Card from "../components/card";
 
 async function fetchPages(): Promise<Pages.Response> {
+  const jwt = window.localStorage.getItem("jwt");
   const res = await fetch(
-    `${import.meta.env.QUOT_API_URL}/api/pages?order=updated.desc`
+    `${import.meta.env.QUOT_API_ENDPOINT}/pages?order=updated.desc`,
+    { headers: jwt ? { authorization: `Bearer ${jwt}` } : {} }
   );
   const data = (await res.json()) as Pages.Response;
   return data;

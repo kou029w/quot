@@ -5,10 +5,30 @@ services:
     restart: unless-stopped
     ports: ["8080:8080"]
     environment:
+      # https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+      QUOT_OPENID_ISSUER: ${QUOT_OPENID_ISSUER:?}
+      # https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1
+      QUOT_OPENID_CLIENT_ID: ${QUOT_OPENID_CLIENT_ID:?}
+      QUOT_OPENID_CLIENT_SECRET: ${QUOT_OPENID_CLIENT_SECRET:?}
+      QUOT_JWK: ${QUOT_JWK:?} # https://mkjwk.org
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
     volumes:
       - postgres_socket:/var/run/postgresql
     depends_on: [db]
+  api:
+    profiles: [dev]
+    image: kou029w/quot
+    build: "."
+    restart: unless-stopped
+    ports: ["3000:3000"]
+    environment:
+      QUOT_JWK: ${QUOT_JWK:?} # https://mkjwk.org
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
+    volumes:
+      - postgres_socket:/var/run/postgresql
+    depends_on:
+      db:
+        condition: service_healthy
   dbmate:
     profiles: [dev]
     image: amacneil/dbmate:1.15@sha256:8fb25de3fce073e39eb3f9411af0410d0e26cc6d120544a7510b964e218abc27

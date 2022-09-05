@@ -10,11 +10,16 @@ async function updatePage(
   id: number,
   content: Pages.RequestContentPage
 ): Promise<boolean> {
+  const jwt = window.localStorage.getItem("jwt");
+  if (!jwt) return false;
   const res = await fetch(
-    `${import.meta.env.QUOT_API_URL}/api/pages?id=eq.${id}`,
+    `${import.meta.env.QUOT_API_ENDPOINT}/pages?id=eq.${id}`,
     {
       method: "PUT",
-      headers: { "content-type": "application/json" },
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        "content-type": "application/json",
+      },
       body: JSON.stringify(content),
     }
   );
@@ -22,16 +27,23 @@ async function updatePage(
 }
 
 async function deletePage(id: number): Promise<boolean> {
+  const jwt = window.localStorage.getItem("jwt");
+  if (!jwt) return false;
   const res = await fetch(
-    `${import.meta.env.QUOT_API_URL}/api/pages?id=eq.${id}`,
-    { method: "DELETE" }
+    `${import.meta.env.QUOT_API_ENDPOINT}/pages?id=eq.${id}`,
+    {
+      method: "DELETE",
+      headers: { authorization: `Bearer ${jwt}` },
+    }
   );
   return res.ok;
 }
 
 async function fetchPage(id: number): Promise<Pages.ResponsePage> {
+  const jwt = window.localStorage.getItem("jwt");
   const res = await fetch(
-    `${import.meta.env.QUOT_API_URL}/api/pages?id=eq.${id}`
+    `${import.meta.env.QUOT_API_ENDPOINT}/pages?id=eq.${id}`,
+    { headers: jwt ? { authorization: `Bearer ${jwt}` } : {} }
   );
   const data = (await res.json()) as Pages.Response;
   return data[0]!;
