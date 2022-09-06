@@ -9,7 +9,7 @@ declare module "fastify" {
 }
 
 export function App(config: Config = defaultConfig()): FastifyInstance {
-  const app = fastify({ logger: true });
+  const app = fastify({ logger: { stream: process.stderr, level: "warn" } });
   app.decorate("config", config).register(routes);
   return app;
 }
