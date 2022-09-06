@@ -5,6 +5,7 @@ import {
   $getRoot,
   createEditor,
 } from "lexical";
+import { registerHistory, createEmptyHistoryState } from "@lexical/history";
 import { registerPlainText } from "@lexical/plain-text";
 import { onCleanup, onMount } from "solid-js";
 import type Pages from "../../protocol/pages";
@@ -34,6 +35,7 @@ export default (props: {
     root.append(paragraphNode);
   };
   onCleanup(registerPlainText(editor, initialEditorState));
+  onCleanup(registerHistory(editor, createEmptyHistoryState(), 333));
   onMount(() => {
     onCleanup(
       editor.registerTextContentListener((text) => {
