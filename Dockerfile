@@ -6,7 +6,7 @@ COPY --from=api /bin/postgrest /usr/bin/
 COPY --from=dbmate /usr/local/bin/dbmate /usr/bin/
 COPY ./db ./db
 COPY ./app ./app
-RUN npm --prefix app ci --production
+RUN npm --prefix app ci --omit=dev
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 COPY ./supervisord.conf /
