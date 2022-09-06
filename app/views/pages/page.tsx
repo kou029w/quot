@@ -11,13 +11,12 @@ async function updatePage(
   content: Pages.RequestContentPage
 ): Promise<boolean> {
   const jwt = window.localStorage.getItem("jwt");
-  if (!jwt) return false;
   const res = await fetch(
     `${import.meta.env.QUOT_API_ENDPOINT}/pages?id=eq.${id}`,
     {
       method: "PUT",
       headers: {
-        authorization: `Bearer ${jwt}`,
+        ...(jwt ? { authorization: `Bearer ${jwt}` } : {}),
         "content-type": "application/json",
       },
       body: JSON.stringify(content),
@@ -28,12 +27,11 @@ async function updatePage(
 
 async function deletePage(id: number): Promise<boolean> {
   const jwt = window.localStorage.getItem("jwt");
-  if (!jwt) return false;
   const res = await fetch(
     `${import.meta.env.QUOT_API_ENDPOINT}/pages?id=eq.${id}`,
     {
       method: "DELETE",
-      headers: { authorization: `Bearer ${jwt}` },
+      headers: jwt ? { authorization: `Bearer ${jwt}` } : {},
     }
   );
   return res.ok;

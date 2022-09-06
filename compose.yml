@@ -22,8 +22,8 @@ services:
     restart: unless-stopped
     ports: ["3000:3000"]
     environment:
-      QUOT_JWK: ${QUOT_JWK:?} # https://mkjwk.org
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
+      PGRST_DB_ANON_ROLE: postgres
     volumes:
       - postgres_socket:/var/run/postgresql
     depends_on:

@@ -3,9 +3,21 @@ import { SignJWT } from "jose";
 import type { FastifyInstance } from "fastify";
 
 async function login(fastify: FastifyInstance) {
-  custom.setHttpOptionsDefaults(fastify.config.openid.request);
-  const issuer = await Issuer.discover(fastify.config.openid.issuer);
-  const client = new issuer.Client(fastify.config.openid.client);
+  const key = fastify.config.key;
+  if (!key) {
+    fastify.log.warn("The key is required to use login endpoint.");
+    return;
+  }
+  const openid = fastify.config.openid;
+  if (!openid) {
+    fastify.log.warn(
+      "The openid parameters is required to use login endpoint."
+    );
+    return;
+  }
+  custom.setHttpOptionsDefaults(openid.request);
+  const issuer = await Issuer.discover(openid.issuer);
+  const client = new issuer.Client(openid.client);
 
   fastify.get("/login", async (request, reply) => {
     const params = client.callbackParams(request.raw);
@@ -22,7 +34,7 @@ async function login(fastify: FastifyInstance) {
       .setProtectedHeader({ typ: "JWT", alg: "RS256" })
       .setExpirationTime("30days")
       .setSubject(userUrl.href)
-      .sign(fastify.config.key);
+      .sign(key);
     const url = new URL(fastify.config.rootUrl);
     url.hash = new URLSearchParams({ jwt }).toString();
     return reply.redirect(url.href);

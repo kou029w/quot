@@ -7,15 +7,17 @@ interface Config {
   apiEndpoint: string;
   viewsDir: string;
   rootUrl: URL;
-  openid: {
-    issuer: string;
-    client: {
-      client_id: string;
-      client_secret: string;
-    };
-    request: HttpOptions;
-  };
-  key: KeyObject;
+  openid:
+    | false
+    | {
+        issuer: string;
+        client: {
+          client_id: string;
+          client_secret: string;
+        };
+        request: HttpOptions;
+      };
+  key: false | KeyObject;
 }
 
 export type { Config };
@@ -31,18 +33,20 @@ function defaultConfig(): Config {
     apiUrl: new URL(process.env.QUOT_API_URL ?? "http://127.0.0.1:3000"),
     apiEndpoint: process.env.QUOT_API_ENDPOINT ?? "/api",
     viewsDir: "views",
-    openid: {
-      issuer: process.env.QUOT_OPENID_ISSUER ?? "",
+    openid: Boolean(process.env.QUOT_OPENID_ISSUER) && {
+      issuer: process.env.QUOT_OPENID_ISSUER!,
       client: {
-        client_id: process.env.QUOT_OPENID_CLIENT_ID ?? "",
-        client_secret: process.env.QUOT_OPENID_CLIENT_SECRET ?? "",
+        client_id: process.env.QUOT_OPENID_CLIENT_ID!,
+        client_secret: process.env.QUOT_OPENID_CLIENT_SECRET!,
       },
       request: { timeout: 5_000 },
     },
-    key: crypto.createPrivateKey({
-      key: JSON.parse(process.env.QUOT_JWK ?? "{}"),
-      format: "jwk",
-    }),
+    key:
+      Boolean(process.env.QUOT_JWK) &&
+      crypto.createPrivateKey({
+        key: JSON.parse(process.env.QUOT_JWK!),
+        format: "jwk",
+      }),
   };
 }
 
