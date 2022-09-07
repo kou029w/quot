@@ -43,14 +43,23 @@ export default (props: {
     editor.registerUpdateListener(() =>
       editor.update(() => {
         const root = $getRoot();
-        const lines = root.getChildren().map((line, i) => {
-          if (i === 0) return line.getTextContent().trim();
+        const defaultTitle = new Date()
+          .toLocaleDateString(navigator.language, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+          .replaceAll("/", "-");
+        const [titleNode, ...lineNodes] = root.getChildren();
+        const title =
+          titleNode?.getTextContent().trim() ||
+          (lineNodes.length === 0 ? "" : defaultTitle);
+        const lines = lineNodes.map((line) => {
           const indent = $isElementNode(line) ? line.getIndent() : 0;
           return `${" ".repeat(indent)}${line.getTextContent()}`;
         });
-        const title = lines[0];
-        const text = lines.join("\n");
-        props.onUpdatePage({ id: props.id, title: title ?? "", text });
+        const text = [title, ...lines].join("\n");
+        props.onUpdatePage({ id: props.id, title, text });
       })
     )
   );
