@@ -43,14 +43,11 @@ export default (props: {
     editor.registerUpdateListener(() =>
       editor.update(() => {
         const root = $getRoot();
-        const lines = root
-          .getChildren()
-          .map(
-            (line) =>
-              `${" ".repeat(
-                $isElementNode(line) ? line.getIndent() : 0
-              )}${line.getTextContent()}`
-          );
+        const lines = root.getChildren().map((line, i) => {
+          if (i === 0) return line.getTextContent().trim();
+          const indent = $isElementNode(line) ? line.getIndent() : 0;
+          return `${" ".repeat(indent)}${line.getTextContent()}`;
+        });
         const title = lines[0];
         const text = lines.join("\n");
         props.onUpdatePage({ id: props.id, title: title ?? "", text });
