@@ -12,7 +12,7 @@ async function views(fastify: FastifyInstance) {
     },
     {
       bundle: true,
-      minify: true,
+      minify: process.env.NODE_ENV !== "development",
       entryPoints: [entryPoint],
       define: {
         "import.meta.env.QUOT_API_ENDPOINT": JSON.stringify(

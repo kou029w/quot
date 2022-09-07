@@ -1,17 +1,21 @@
 import {
-  $createLineBreakNode,
   $createParagraphNode,
   $createTextNode,
   $getRoot,
+  $isElementNode,
   createEditor,
 } from "lexical";
 import { registerHistory, createEmptyHistoryState } from "@lexical/history";
-import { registerPlainText } from "@lexical/plain-text";
+import {
+  $createHeadingNode,
+  HeadingNode,
+  registerRichText,
+} from "@lexical/rich-text";
 import { onCleanup, onMount } from "solid-js";
 import type Pages from "../../protocol/pages";
 import "./editor.css";
 
-const editor = createEditor();
+const editor = createEditor({ nodes: [HeadingNode] });
 
 function ref(el: HTMLElement) {
   editor.setRootElement(el);
@@ -25,25 +29,34 @@ export default (props: {
 }) => {
   const initialEditorState = () => {
     const root = $getRoot();
-    if (root.getFirstChild()) return;
-    const paragraphNode = $createParagraphNode();
-    const text = props.text
-      .split("\n")
-      .flatMap((line) => [$createTextNode(line), $createLineBreakNode()])
-      .slice(0, -1);
-    paragraphNode.append(...text);
-    root.append(paragraphNode);
+    for (const [i, text] of props.text.split("\n").entries()) {
+      const line = i === 0 ? $createHeadingNode("h2") : $createParagraphNode();
+      const indent = text.match(/^\s*/)?.[0]?.length ?? 0;
+      line.setIndent(indent);
+      line.append($createTextNode(text.slice(indent)));
+      root.append(line);
+    }
   };
-  onCleanup(registerPlainText(editor, initialEditorState));
+  onCleanup(registerRichText(editor, initialEditorState));
   onCleanup(registerHistory(editor, createEmptyHistoryState(), 333));
-  onMount(() => {
-    onCleanup(
-      editor.registerTextContentListener((text) => {
-        const [title] = text.split("\n");
+  onCleanup(
+    editor.registerUpdateListener(() =>
+      editor.update(() => {
+        const root = $getRoot();
+        const lines = root
+          .getChildren()
+          .map(
+            (line) =>
+              `${" ".repeat(
+                $isElementNode(line) ? line.getIndent() : 0
+              )}${line.getTextContent()}`
+          );
+        const title = lines[0];
+        const text = lines.join("\n");
         props.onUpdatePage({ id: props.id, title: title ?? "", text });
       })
-    );
-    editor.focus();
-  });
+    )
+  );
+  onMount(() => editor.focus());
   return <article ref={ref} class="editor" contenteditable />;
 };

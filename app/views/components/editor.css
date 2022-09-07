@@ -8,3 +8,12 @@
   border-top-color: var(--nc-bg-3);
   box-shadow: 0 1px var(--nc-bg-3);
 }
+
+.editor :is(h1, h2, h3, h4, h5, h6) {
+  padding: unset;
+  font-size: unset;
+}
+
+.editor p {
+  margin: unset;
+}
