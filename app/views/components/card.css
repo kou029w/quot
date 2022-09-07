@@ -1,6 +1,7 @@
 .card {
   margin: unset;
-  padding: 1rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
   aspect-ratio: 1;
   box-sizing: border-box;
   overflow: hidden;
@@ -13,6 +14,7 @@
 }
 
 .card h2 {
+  margin: unset;
   padding: unset;
   font-size: unset;
 }

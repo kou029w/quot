@@ -1,5 +1,5 @@
 :root {
-  font-size: 12px;
+  font-size: 14px;
   --nc-font-sans: sans-serif;
   --nc-font-mono: monospace;
   --nc-lk-1: #1875d1;
@@ -9,11 +9,13 @@
 }
 
 body {
-  padding-inline: 1rem;
+  padding-inline: 0.75rem;
   max-inline-size: 80rem;
 }
 
 header {
+  padding-block: 1.25rem;
+  margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -21,6 +23,7 @@ header {
 
 header h1 {
   margin: 0;
+  font-size: 1.85rem;
 }
 
 header h1 > :is(a, a:hover) {
@@ -28,7 +31,7 @@ header h1 > :is(a, a:hover) {
 }
 
 header nav > * {
-  font-size: 1.55rem;
+  font-size: 1.25rem;
 }
 
 a[href^="/"] {

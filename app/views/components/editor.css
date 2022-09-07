@@ -1,5 +1,6 @@
 .editor {
-  padding: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
   box-sizing: border-box;
   background-color: var(--nc-bg-2);
   color: var(--nc-tx-2);
@@ -11,7 +12,7 @@
 
 .editor :is(h1, h2, h3, h4, h5, h6) {
   padding: unset;
-  font-size: unset;
+  font-size: 1.25rem;
 }
 
 .editor p {
