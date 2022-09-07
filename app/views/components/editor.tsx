@@ -11,11 +11,13 @@ import {
   HeadingNode,
   registerRichText,
 } from "@lexical/rich-text";
+import { $createAutoLinkNode, AutoLinkNode } from "@lexical/link";
 import { onCleanup, onMount } from "solid-js";
 import type Pages from "../../protocol/pages";
 import "./editor.css";
 
-const editor = createEditor({ nodes: [HeadingNode] });
+const urlMatcher = /https?:\/\/[^\s]+/;
+const editor = createEditor({ nodes: [HeadingNode, AutoLinkNode] });
 
 function ref(el: HTMLElement) {
   editor.setRootElement(el);
@@ -29,12 +31,26 @@ export default (props: {
 }) => {
   const initialEditorState = () => {
     const root = $getRoot();
-    for (const [i, text] of props.text.split("\n").entries()) {
-      const line = i === 0 ? $createHeadingNode("h2") : $createParagraphNode();
-      const indent = text.match(/^\s*/)?.[0]?.length ?? 0;
-      line.setIndent(indent);
-      line.append($createTextNode(text.slice(indent)));
-      root.append(line);
+    const [title, ...lines] = props.text.split("\n");
+    const titleNode = $createHeadingNode("h2");
+    titleNode.append($createTextNode(title));
+    root.append(titleNode);
+    for (const line of lines) {
+      const lineNode = $createParagraphNode();
+      const indent = line.match(/^\s*/)?.[0]?.length ?? 0;
+      lineNode.setIndent(indent);
+      let text = line.slice(indent);
+      let match: RegExpMatchArray | null = null;
+      while ((match = text.match(urlMatcher))) {
+        const offset = text.slice(0, match.index!);
+        const input = match[0]!;
+        const link = $createAutoLinkNode(input);
+        link.append($createTextNode(match[0]));
+        lineNode.append($createTextNode(offset), link);
+        text = text.slice(offset.length + input.length);
+      }
+      lineNode.append($createTextNode(text));
+      root.append(lineNode);
     }
   };
   onCleanup(registerRichText(editor, initialEditorState));
@@ -64,5 +80,17 @@ export default (props: {
     )
   );
   onMount(() => editor.focus());
-  return <article ref={ref} class="editor" contenteditable />;
+  return (
+    <article
+      ref={ref}
+      onclick={(e) => {
+        const el = e.target.parentElement;
+        if (el instanceof HTMLAnchorElement) {
+          window.open(el.href, "_blank", "noreferrer");
+        }
+      }}
+      class="editor"
+      contenteditable
+    />
+  );
 };
