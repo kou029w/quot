@@ -75,7 +75,9 @@ export default (props: {
           return `${" ".repeat(indent)}${line.getTextContent()}`;
         });
         const text = [title, ...lines].join("\n");
-        props.onUpdatePage({ id: props.id, title, text });
+        if (props.text !== text) {
+          props.onUpdatePage({ id: props.id, title, text });
+        }
       })
     )
   );
