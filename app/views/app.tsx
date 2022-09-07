@@ -2,11 +2,13 @@ import "./app.css";
 import { createSignal } from "solid-js";
 import Index from "./pages/index";
 import Page from "./pages/page";
+import Random from "./pages/random";
 import random from "./helpers/random";
 import { decodeJwt } from "jose";
 
 const routes = {
   "/": Index,
+  "/random": Random,
 };
 
 async function updateUser(jwt: string): Promise<boolean> {
@@ -70,6 +72,7 @@ export default () => {
         </h1>
         <nav>
           <a href={authenticated ? "/new" : "/login"}>📄</a>
+          <a href="/random">🔀</a>
         </nav>
       </header>
       {routes[pathname()] ?? (

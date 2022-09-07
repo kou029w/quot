@@ -9,20 +9,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: update_timestamp(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.update_timestamp() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-  BEGIN
-    NEW.updated = CURRENT_TIMESTAMP;
-    RETURN NEW;
-  END
-$$;
-
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -40,6 +26,31 @@ CREATE TABLE public.pages (
     updated timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     published timestamp with time zone
 );
+
+
+--
+-- Name: random(public.pages); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.random(public.pages) RETURNS double precision
+    LANGUAGE sql
+    AS $$
+  SELECT random();
+$$;
+
+
+--
+-- Name: update_timestamp(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.update_timestamp() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    NEW.updated = CURRENT_TIMESTAMP;
+    RETURN NEW;
+  END
+$$;
 
 
 --
@@ -186,4 +197,5 @@ CREATE POLICY users_policy ON public.users USING ((id = ((current_setting('reque
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('0');
+    ('0'),
+    ('20220907130637');
