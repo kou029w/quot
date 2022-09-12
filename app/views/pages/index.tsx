@@ -6,7 +6,7 @@ import Card from "../components/card";
 async function fetchPages(): Promise<Pages.Response> {
   const jwt = window.localStorage.getItem("jwt");
   const res = await fetch(
-    `${import.meta.env.QUOT_API_ENDPOINT}/pages?order=updated.desc&limit=50`,
+    `${import.meta.env.QUOT_API_ENDPOINT}/pages?order=updated.desc&limit=24`,
     { headers: jwt ? { authorization: `Bearer ${jwt}` } : {} }
   );
   const data = (await res.json()) as Pages.Response;
