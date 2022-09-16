@@ -1,0 +1,15 @@
+@top Document { heading line* }
+
+heading { Heading "\n" }
+line    { Indent* (AutoLink | Word) (AutoLink | Word | Spaces)* "\n" }
+
+@tokens {
+  space       { $[ \t] }
+  letter      { ![ \t\n]+ }
+  Heading     { letter+ }
+  Indent      { space }
+  Spaces      { space+ }
+  AutoLink    { ("http" | "https") "://" letter+ }
+  Word        { letter+ }
+  @precedence { AutoLink, Word }
+}

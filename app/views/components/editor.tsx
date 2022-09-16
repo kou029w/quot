@@ -1,27 +1,11 @@
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getRoot,
-  $isElementNode,
-  createEditor,
-} from "lexical";
-import { registerHistory, createEmptyHistoryState } from "@lexical/history";
-import {
-  $createHeadingNode,
-  HeadingNode,
-  registerRichText,
-} from "@lexical/rich-text";
-import { $createAutoLinkNode, AutoLinkNode } from "@lexical/link";
 import { onCleanup, onMount } from "solid-js";
+import { minimalSetup } from "codemirror";
+import { emacsStyleKeymap, indentWithTab } from "@codemirror/commands";
+import { indentUnit } from "@codemirror/language";
+import { EditorView, keymap } from "@codemirror/view";
 import type Pages from "../../protocol/pages";
 import "./editor.css";
-
-const urlMatcher = /https?:\/\/[^\s]+/;
-const editor = createEditor({ nodes: [HeadingNode, AutoLinkNode] });
-
-function ref(el: HTMLElement) {
-  editor.setRootElement(el);
-}
+import { quotHighlighting, quotLanguage } from "../../syntax/quot";
 
 export default (props: {
   id: number;
@@ -29,70 +13,50 @@ export default (props: {
   text: string;
   onUpdatePage: (content: Pages.RequestContentPage) => void;
 }) => {
-  const initialEditorState = () => {
-    const root = $getRoot();
-    const [title, ...lines] = props.text.split("\n");
-    const titleNode = $createHeadingNode("h2");
-    titleNode.append($createTextNode(title));
-    root.append(titleNode);
-    for (const line of lines) {
-      const lineNode = $createParagraphNode();
-      const indent = line.match(/^\s*/)?.[0]?.length ?? 0;
-      lineNode.setIndent(indent);
-      let text = line.slice(indent);
-      let match: RegExpMatchArray | null = null;
-      while ((match = text.match(urlMatcher))) {
-        const offset = text.slice(0, match.index!);
-        const input = match[0]!;
-        const link = $createAutoLinkNode(input);
-        link.append($createTextNode(match[0]));
-        lineNode.append($createTextNode(offset), link);
-        text = text.slice(offset.length + input.length);
-      }
-      lineNode.append($createTextNode(text));
-      root.append(lineNode);
-    }
-  };
-  onCleanup(registerRichText(editor, initialEditorState));
-  onCleanup(registerHistory(editor, createEmptyHistoryState(), 333));
-  onCleanup(
-    editor.registerUpdateListener(() =>
-      editor.update(() => {
-        const root = $getRoot();
-        const defaultTitle = new Date()
-          .toLocaleDateString(navigator.language, {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })
-          .replaceAll("/", "-");
-        const [titleNode, ...lineNodes] = root.getChildren();
-        const title =
-          titleNode?.getTextContent().trim() ||
-          (lineNodes.length === 0 ? "" : defaultTitle);
-        const lines = lineNodes.map((line) => {
-          const indent = $isElementNode(line) ? line.getIndent() : 0;
-          return `${" ".repeat(indent)}${line.getTextContent()}`;
-        });
-        const text = [title, ...lines].join("\n");
-        if (props.text !== text) {
+  let ref: HTMLElement;
+  onMount(() => {
+    const view = new EditorView({
+      doc: props.text,
+      selection: { anchor: props.text.length },
+      parent: ref,
+      extensions: [
+        EditorView.updateListener.of((update) => {
+          if (!update.docChanged) return;
+          const defaultTitle = new Date()
+            .toLocaleDateString(navigator.language, {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            })
+            .replaceAll("/", "-");
+          const [heading, ...lines] = update.state.doc.toJSON();
+          const title =
+            heading?.trim() || (lines.length === 0 ? "" : defaultTitle);
+          const text = [title, ...lines].join("\n");
           props.onUpdatePage({ id: props.id, title, text });
-        }
-      })
-    )
-  );
-  onMount(() => editor.focus());
+        }),
+        EditorView.lineWrapping,
+        indentUnit.of(" "),
+        keymap.of([indentWithTab, ...emacsStyleKeymap]),
+        minimalSetup,
+        quotLanguage,
+        quotHighlighting,
+      ],
+    });
+    ref.addEventListener("click", (e) => {
+      if (!(e.target instanceof HTMLElement)) return;
+      if (e.target.classList.contains("auto-link") && e.target.textContent) {
+        window.open(e.target.textContent, "_blank", "noreferrer");
+      }
+    });
+    onCleanup(() => view.destroy());
+    view.focus();
+  });
   return (
     <article
-      ref={ref}
-      onclick={(e) => {
-        const el = e.target.parentElement;
-        if (el instanceof HTMLAnchorElement) {
-          window.open(el.href, "_blank", "noreferrer");
-        }
-      }}
+      ref={(el) => (ref = el)}
+      id={props.id.toString(16)}
       class="editor"
-      contenteditable
     />
   );
 };

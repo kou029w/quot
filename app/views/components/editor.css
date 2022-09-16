@@ -1,6 +1,5 @@
 .editor {
   padding: 0.75rem;
-  font-size: 1rem;
   box-sizing: border-box;
   background-color: var(--nc-bg-2);
   color: var(--nc-tx-2);
@@ -10,15 +9,29 @@
   box-shadow: 0 1px var(--nc-bg-3);
 }
 
-.editor :is(h1, h2, h3, h4, h5, h6) {
-  padding: unset;
-  font-size: 1.25rem;
+.editor .cm-editor.cm-focused {
+  outline: unset;
 }
 
-.editor p {
-  margin: unset;
+.editor .cm-content {
+  font-family: "sans-serif";
+  font-size: 1rem;
 }
 
-.editor a:hover {
+.editor .cm-line {
+  display: flex;
+}
+
+.editor .auto-link:hover {
+  cursor: pointer;
+}
+
+.editor .auto-link {
+  color: var(--nc-lk-1);
+  text-decoration: underline;
+}
+
+.editor .auto-link:hover {
+  color: var(--nc-lk-2);
   cursor: pointer;
 }
