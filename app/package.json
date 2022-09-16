@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prepare": "lezer-generator --noTerms --output syntax/quot.grammar.js syntax/quot.grammar",
+    "build": "lezer-generator --noTerms --output syntax/quot.grammar.js syntax/quot.grammar",
     "test": "tsc --noEmit",
     "start": "TS_NODE_DEV=true node -r esbuild-register main.ts"
   },
