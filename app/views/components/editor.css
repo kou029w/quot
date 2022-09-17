@@ -22,6 +22,10 @@
   display: flex;
 }
 
+.editor .cm-cursor {
+  border-left-color: var(--nc-tx-1);
+}
+
 .editor .auto-link:hover {
   cursor: pointer;
 }
