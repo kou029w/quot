@@ -5,9 +5,8 @@ line    { Indent* ((AutoLink | word) space*)* "\n" }
 
 @tokens {
   space       { $[ \t] }
-  letter      { ![ \t\n] }
-  word        { letter+ }
-  Heading     { (letter | space)+ }
+  word        { ![ \t\n]+ }
+  Heading     { ![\n]+ }
   Indent      { space }
   AutoLink    { ("http" | "https") "://" word }
   @precedence { AutoLink, word }
