@@ -29,6 +29,10 @@ export const quotHighlighting = syntaxHighlighting(
     {
       tag: t.separator,
       letterSpacing: "1.5em",
+      "&:last-child:after": {
+        content: `"•"`,
+        marginInline: "-1em",
+      },
     },
     {
       tag: t.link,
