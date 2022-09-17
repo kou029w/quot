@@ -1,15 +1,14 @@
 @top Document { heading line* }
 
-heading { Heading "\n" }
-line    { Indent* (AutoLink | Word) (AutoLink | Word | Spaces)* "\n" }
+heading { Heading? "\n" }
+line    { Indent* ((AutoLink | word) space*)* "\n" }
 
 @tokens {
   space       { $[ \t] }
-  letter      { ![ \t\n]+ }
-  Heading     { letter+ }
+  letter      { ![ \t\n] }
+  word        { letter+ }
+  Heading     { (letter | space)+ }
   Indent      { space }
-  Spaces      { space+ }
-  AutoLink    { ("http" | "https") "://" letter+ }
-  Word        { letter+ }
-  @precedence { AutoLink, Word }
+  AutoLink    { ("http" | "https") "://" word }
+  @precedence { AutoLink, word }
 }

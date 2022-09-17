@@ -13,7 +13,6 @@ export const quotLanguage = LRLanguage.define({
         Heading: t.heading,
         Indent: t.separator,
         AutoLink: t.link,
-        Spaces: t.content,
       }),
     ],
   }),
@@ -34,9 +33,6 @@ export const quotHighlighting = syntaxHighlighting(
     {
       tag: t.link,
       class: "auto-link",
-    },
-    {
-      tag: t.content,
     },
   ])
 );
