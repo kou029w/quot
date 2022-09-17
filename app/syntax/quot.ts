@@ -46,7 +46,6 @@ export const quotHighlighting = syntaxHighlighting(
       padding: "0.2em 0.4em",
       fontSize: "0.9em",
       fontFamily: "var(--nc-font-mono)",
-      fontWeight: "bold",
     },
   ])
 );
