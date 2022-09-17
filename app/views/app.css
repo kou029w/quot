@@ -8,6 +8,13 @@
   --nc-ac-tx: var(--nc-tx-1);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nc-lk-1: #66adff;
+    --nc-lk-2: #a8caf0;
+  }
+}
+
 body {
   padding-inline: 0.75rem;
   max-inline-size: 80rem;
