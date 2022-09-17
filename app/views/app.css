@@ -31,8 +31,11 @@ header h1 > :is(a, a:hover) {
 }
 
 header nav > * {
-  margin: 0.75rem;
   font-size: 1.25rem;
+}
+
+header nav > * + * {
+  margin-inline-start: 0.75rem;
 }
 
 a[href^="/"] {
