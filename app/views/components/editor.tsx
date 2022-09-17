@@ -1,7 +1,7 @@
 import { onCleanup, onMount } from "solid-js";
 import { minimalSetup } from "codemirror";
 import { emacsStyleKeymap, indentWithTab } from "@codemirror/commands";
-import { indentUnit } from "@codemirror/language";
+import { indentService, indentUnit } from "@codemirror/language";
 import { EditorView, keymap } from "@codemirror/view";
 import type Pages from "../../protocol/pages";
 import "./editor.css";
@@ -37,6 +37,11 @@ export default (props: {
         }),
         EditorView.lineWrapping,
         indentUnit.of(" "),
+        indentService.of((context, pos) => {
+          const previousLine = context.lineAt(pos, -1).text;
+          if (previousLine.trim() === "") return null;
+          return /^[ \t]*/.exec(previousLine)?.[0]?.length ?? null;
+        }),
         keymap.of([indentWithTab, ...emacsStyleKeymap]),
         minimalSetup,
         quotLanguage,
