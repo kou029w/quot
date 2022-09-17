@@ -2,15 +2,15 @@
 import {LRParser} from "@lezer/lr"
 export const parser = LRParser.deserialize({
   version: 14,
-  states: "#rOQOPOOOOOO'#Cf'#CfOYOPO'#CfQ_OQOOOOOO,59Q,59QOOOO'#Cb'#CbOmOQO'#ChO{OSO'#CcOpOQO'#ChOOOO'#Ch'#ChOOOO'#Ca'#CaQ_OQOOOOOO-E6`-E6`O!ZOQO,59SOOOO,59S,59SOOOO'#Cd'#CdO!fOSO,58}OOOO-E6a-E6aOOOO-E6_-E6_OOOO1G.n1G.nOOOO-E6b-E6b",
-  stateData: "!w~OQQOZPO~OZSO~ORTOSVOZXO]VO~ORTOSVOZ^O]VO~O^_OSVXZVX]VX~OSVOZcO]VO~O^_OSVaZVa]Va~OS]~",
-  goto: "!T]PPPPP^dkvP|P!PQZRRbZSURZR[USWRZQ]UTaW]Q`VRd`RROTYRZ",
-  nodeNames: "⚠ Document Heading Indent AutoLink",
-  maxTerm: 14,
+  states: "#rOQOPOOOOOO'#Cg'#CgOYOPO'#CgQ_OQOOOOOO,59R,59ROOOO'#Cc'#CcOpOQO'#CiO!ROSO'#CdOsOQO'#CiOOOO'#Ci'#CiOOOO'#Cb'#CbQ_OQOOOOOO-E6a-E6aO!dOQO,59TOOOO,59T,59TOOOO'#Ce'#CeO!rOSO,59OOOOO-E6b-E6bOOOO-E6`-E6`OOOO1G.o1G.oOOOO-E6c-E6c",
+  stateData: "#Y~OQQO[PO~O[SO~ORTOSVOTVO[XO^VO~ORTOSVOTVO[^O^VO~O__OSWXTWX[WX^WX~OSVOTVO[cO^VO~O__OSWaTWa[Wa^Wa~OST^T~",
+  goto: "!U^PPPPPP_elwP}P!QQZRRbZSURZR[USWRZQ]UTaW]Q`VRd`RROTYRZ",
+  nodeNames: "⚠ Document Heading Indent AutoLink Code",
+  maxTerm: 15,
   skippedNodes: [0],
   repeatNodeCount: 4,
-  tokenData: "(U~RWOXkXY!^YZ!mZpkpq!^q#[k#[#]!r#]~kVrTQP]UOXkXY!RZpkpq!Rq~kP!WQQPOY!RZ~!RV!gQQPRQ^SOY!RZ~!R~!rOZ~V!yVQP]UOXkXY!RZpkpq!Rq#hk#h#i#`#i~kV#gVQP]UOXkXY!RZpkpq!Rq#hk#h#i#|#i~kV$TVQP]UOXkXY!RZpkpq!Rq#dk#d#e$j#e~kV$qXQP]UOXkXY!RZpkpq!Rq![k![!]%^!]#gk#g#h'h#h~kV%eVQP]UOXkXY!RZpkpq!Rq!Pk!P!Q%z!Q~kV&RVQP]UOXkXY!RZpkpq!Rq!Pk!P!Q&h!Q~kV&oTQP]UOX'OXY!RZp'Opq!Rq~'OV'XTQPSU]UOX'OXY!RZp'Opq!Rq~'OV'oVQP]UOXkXY!RZpkpq!Rq![k![!]%^!]~k",
+  tokenData: "+w~R]OXzXY!mYZ!|Zpzpq!mqtztu#Ruv#Rv#Sz#S#T$R#T#[z#[#]&e#]~zV!RTQP^UOXzXY!bZpzpq!bq~zP!gQQPOY!bZ~!bV!vQQPRQ_SOY!bZ~!b~#RO[~V#YTQP^UOXzXY!bZpzpq#iq~zV#nQQPOY#tZ~#tV#{QQPTUOY#tZ~#tV$YVQP^UOX$oXY%]Zp$opq%]q#S$o#S#Tz#T~$oV$vVQP^UOX$oXY%]Zp$opq%]q#S$o#S#T%{#T~$oV%bSQPOY%]Z#S%]#S#T%n#T~%]V%uQQPTUOY!bZ~!bV&UTQPTU^UOXzXY!bZpzpq!bq~zV&lVQP^UOXzXY!bZpzpq!bq#hz#h#i'R#i~zV'YVQP^UOXzXY!bZpzpq!bq#hz#h#i'o#i~zV'vVQP^UOXzXY!bZpzpq!bq#dz#d#e(]#e~zV(dXQP^UOXzXY!bZpzpq!bq![z![!])P!]#gz#g#h+Z#h~zV)WVQP^UOXzXY!bZpzpq!bq!Pz!P!Q)m!Q~zV)tVQP^UOXzXY!bZpzpq!bq!Pz!P!Q*Z!Q~zV*bTQP^UOX*qXY!bZp*qpq!bq~*qV*zTQPSU^UOX*qXY!bZp*qpq!bq~*qV+bVQP^UOXzXY!bZpzpq!bq![z![!])P!]~z",
   tokenizers: [0, 1, 2],
   topRules: {"Document":[0,1]},
-  tokenPrec: 82
+  tokenPrec: 97
 })
