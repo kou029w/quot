@@ -31,7 +31,7 @@ export const quotHighlighting = syntaxHighlighting(
       letterSpacing: "1.5em",
       "&:last-child:after": {
         content: `"•"`,
-        marginInline: "-1em",
+        marginInline: "-0.9em",
       },
     },
     {
