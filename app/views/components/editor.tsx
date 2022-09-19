@@ -1,11 +1,11 @@
 import { onCleanup, onMount } from "solid-js";
 import { minimalSetup } from "codemirror";
-import { emacsStyleKeymap, indentWithTab } from "@codemirror/commands";
-import { indentService, indentUnit } from "@codemirror/language";
+import { emacsStyleKeymap } from "@codemirror/commands";
 import { EditorView, keymap } from "@codemirror/view";
 import type Pages from "../../protocol/pages";
 import "./editor.css";
 import { quotHighlighting, quotLanguage } from "../../syntax/quot";
+import indentPlugins from "../../syntax/indent-plugins";
 
 export default (props: {
   id: number;
@@ -36,19 +36,11 @@ export default (props: {
           props.onUpdatePage({ id: props.id, title, text });
         }),
         EditorView.lineWrapping,
-        indentUnit.of(" "),
-        indentService.of((context, pos) => {
-          const previousLine = context.lineAt(pos, -1).text;
-          if (previousLine.trim() === "") return null;
-          return /^[ \t]*/.exec(previousLine)?.[0]?.length ?? null;
-        }),
-        keymap.of([
-          indentWithTab,
-          ...emacsStyleKeymap.filter(({ key }) => key !== "Ctrl-v"),
-        ]),
+        keymap.of(emacsStyleKeymap.filter(({ key }) => key !== "Ctrl-v")),
         minimalSetup,
         quotLanguage,
         quotHighlighting,
+        ...indentPlugins,
       ],
     });
     ref.addEventListener("click", (e) => {

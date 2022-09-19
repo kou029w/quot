@@ -11,7 +11,6 @@ export const quotLanguage = LRLanguage.define({
     props: [
       styleTags({
         Heading: t.heading,
-        Indent: t.separator,
         AutoLink: t.link,
         Code: t.monospace,
       }),
@@ -26,14 +25,6 @@ export const quotHighlighting = syntaxHighlighting(
       fontWeight: "bold",
       fontSize: "1.25em",
       marginBlockEnd: "0.5em",
-    },
-    {
-      tag: t.separator,
-      letterSpacing: "1.5em",
-      "&:last-child:after": {
-        content: `"•"`,
-        marginInline: "-0.9em",
-      },
     },
     {
       tag: t.link,
