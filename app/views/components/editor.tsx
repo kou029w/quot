@@ -42,7 +42,10 @@ export default (props: {
           if (previousLine.trim() === "") return null;
           return /^[ \t]*/.exec(previousLine)?.[0]?.length ?? null;
         }),
-        keymap.of([indentWithTab, ...emacsStyleKeymap]),
+        keymap.of([
+          indentWithTab,
+          ...emacsStyleKeymap.filter(({ key }) => key !== "Ctrl-v"),
+        ]),
         minimalSetup,
         quotLanguage,
         quotHighlighting,
