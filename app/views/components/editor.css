@@ -13,6 +13,10 @@
   outline: unset;
 }
 
+.editor .cm-editor.cm-focused .cm-selectionBackground {
+  background-color: var(--nc-ac-1);
+}
+
 .editor .cm-content {
   font-family: "sans-serif";
   font-size: 1rem;

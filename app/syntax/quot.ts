@@ -41,7 +41,9 @@ export const quotHighlighting = syntaxHighlighting(
     },
     {
       tag: t.monospace,
-      background: "var(--nc-bg-3)",
+      borderStyle: "solid",
+      borderColor: "var(--nc-bg-3)",
+      borderWidth: "1px",
       borderRadius: "0.25em",
       padding: "0.2em 0.4em",
       fontSize: "0.9em",
