@@ -24,7 +24,9 @@ export const quotHighlighting = syntaxHighlighting(
       tag: t.heading,
       fontWeight: "bold",
       fontSize: "1.25em",
-      marginBlockEnd: "0.5em",
+      ".cm-line:has(> &)": {
+        marginBlockEnd: "0.5em",
+      },
     },
     {
       tag: t.link,
