@@ -10,7 +10,7 @@
   "engines": {
     "node": "^18.7.0"
   },
-  "packageManager": "npm@8.19.0",
+  "packageManager": "npm@8.19.2",
   "dependencies": {
     "@codemirror/commands": "^6.1.0",
     "@codemirror/language": "^6.2.1",
