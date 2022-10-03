@@ -10,7 +10,7 @@ services:
       # https://www.rfc-editor.org/rfc/rfc6749#section-2.3.1
       QUOT_OPENID_CLIENT_ID: ${QUOT_OPENID_CLIENT_ID:?}
       QUOT_OPENID_CLIENT_SECRET: ${QUOT_OPENID_CLIENT_SECRET:?}
-      QUOT_JWK: ${QUOT_JWK:?} # https://mkjwk.org
+      QUOT_JWK: ${QUOT_JWK:?} # https://jwk.pages.dev
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@/postgres?host=/var/run/postgresql
     volumes:
       - postgres_socket:/var/run/postgresql
