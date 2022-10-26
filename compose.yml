@@ -31,7 +31,7 @@ services:
         condition: service_healthy
   dbmate:
     profiles: [dev]
-    image: amacneil/dbmate:1.15@sha256:8fb25de3fce073e39eb3f9411af0410d0e26cc6d120544a7510b964e218abc27
+    image: amacneil/dbmate:1.16@sha256:7a93421be89475d1d7daebaa39c1627b2cead94d49e03d0afe689abb8a40175c
     command: --wait up
     user: ${UID:-1000}:${GID:-1000}
     environment:
@@ -41,7 +41,7 @@ services:
       - postgres_socket:/var/run/postgresql
     depends_on: [db]
   db:
-    image: postgres:14-alpine@sha256:322e9d80bbe0d19df45a2cfa262b50947683b4da283afdb6bee8e549aea87bf3
+    image: postgres:15-alpine@sha256:09d57b502063c77d8896683ff5126187025d7b2e2b4378a896b90dced36bc083
     restart: unless-stopped
     healthcheck:
       test: pg_isready -U postgres
