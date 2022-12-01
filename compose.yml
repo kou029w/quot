@@ -41,7 +41,7 @@ services:
       - postgres_socket:/var/run/postgresql
     depends_on: [db]
   db:
-    image: postgres:15-alpine@sha256:09d57b502063c77d8896683ff5126187025d7b2e2b4378a896b90dced36bc083
+    image: postgres:15-alpine@sha256:46bff4a5bd9ee7d78fc835c73fa8ff477051f603b89e796ea28fe83171e064e4
     restart: unless-stopped
     healthcheck:
       test: pg_isready -U postgres
